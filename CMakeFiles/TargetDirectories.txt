@@ -1,8 +1,0 @@
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/install/strip.dir
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/install/local.dir
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/MyPro.dir
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/example.dir
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/edit_cache.dir
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/rebuild_cache.dir
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/list_install_components.dir
-/home/aogaki/Simulation/GeDetForGBS/CMakeFiles/install.dir

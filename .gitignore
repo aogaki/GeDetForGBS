@@ -1,0 +1,13 @@
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+example
+G4History.macro
+Makefile
+*.so
+*.d
+*~
+*.bu
+result*.root
+Makefile
+
