@@ -8,6 +8,7 @@ Makefile
 *.d
 *~
 *.bu
+*.gch
 result*.root
 Makefile
-
+compile_commands.json

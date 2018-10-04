@@ -27,8 +27,10 @@ GDPrimaryGeneratorAction::GDPrimaryGeneratorAction()
   fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., sourcePos));
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
 
-  fEnergy = 10. * MeV;
+  fEnergy = 1. * MeV;
   fParticleGun->SetParticleEnergy(fEnergy);
+
+  DefineCommands();
 }
 
 GDPrimaryGeneratorAction::~GDPrimaryGeneratorAction() { delete fParticleGun; }
@@ -40,4 +42,24 @@ void GDPrimaryGeneratorAction::GeneratePrimaries(G4Event *event)
   G4AutoLock lock(&mutexInPGA);
   if (nEveInPGA++ % 10000 == 0)
     G4cout << nEveInPGA - 1 << " events done" << G4endl;
+}
+
+void GDPrimaryGeneratorAction::DefineCommands()
+{
+  fMessenger = new G4GenericMessenger(this, "/GD/Primary/", "Beam control");
+
+  // Kinetic energy
+  G4GenericMessenger::Command &setEneCmd = fMessenger->DeclareMethodWithUnit(
+      "K", "keV", &GDPrimaryGeneratorAction::SetEnergy,
+      "Set the kinetic energy.");
+
+  setEneCmd.SetParameterName("K", true);
+  setEneCmd.SetRange("K>=1. && K<=100000.");
+  setEneCmd.SetDefaultValue("10");
+}
+
+void GDPrimaryGeneratorAction::SetEnergy(G4double ene)
+{
+  fEnergy = ene;
+  fParticleGun->SetParticleEnergy(fEnergy);
 }

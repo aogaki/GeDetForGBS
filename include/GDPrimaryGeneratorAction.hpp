@@ -18,8 +18,13 @@ class GDPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
   virtual void GeneratePrimaries(G4Event *);
 
+  void SetEnergy(G4double ene);
+
  private:
   G4ParticleGun *fParticleGun;
+
+  void DefineCommands();
+  G4GenericMessenger *fMessenger;
   G4double fEnergy;
 };
 
