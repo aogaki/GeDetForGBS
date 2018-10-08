@@ -12,3 +12,5 @@ Makefile
 result*.root
 Makefile
 compile_commands.json
+bu/
+

@@ -56,8 +56,10 @@ void GDEventAction::EndOfEventAction(const G4Event *event)
       depEneNaI += newHit->GetDepEne();
   }
 
-  anaMan->FillNtupleIColumn(1, 0, eventID);
-  anaMan->FillNtupleDColumn(1, 1, depEneGe);
-  anaMan->FillNtupleDColumn(1, 2, depEneNaI);
-  anaMan->AddNtupleRow(1);
+  if (depEneGe > 0.) {
+    anaMan->FillNtupleIColumn(1, 0, eventID);
+    anaMan->FillNtupleDColumn(1, 1, depEneGe);
+    anaMan->FillNtupleDColumn(1, 2, depEneNaI);
+    anaMan->AddNtupleRow(1);
+  }
 }

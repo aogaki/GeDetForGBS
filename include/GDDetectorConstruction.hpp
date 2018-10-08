@@ -11,6 +11,9 @@
 #include <G4VUserDetectorConstruction.hh>
 #include <G4VisAttributes.hh>
 
+#include "GDConstructGe.hpp"
+#include "GDConstructNaI.hpp"
+
 class GDDetectorConstruction : public G4VUserDetectorConstruction
 {
  public:
@@ -23,21 +26,15 @@ class GDDetectorConstruction : public G4VUserDetectorConstruction
  private:
   G4bool fCheckOverlap;
 
+  GDConstructGe *fConstructorGe;
+  GDConstructNaI *fConstructorNaI;
+
   // Materials
   void DefineMaterials();
-  G4Material *fVacuumMat;
   G4Material *fAirMat;
-  G4Material *fCrystalMat;
-  G4Material *fColdFingerMat;
-  G4Material *fHolderMat;
-  G4Material *fEndcapMat;
 
-  G4LogicalVolume *ConstructGeDet();
-  G4LogicalVolume *ConstructGeHolder();
-  G4LogicalVolume *ConstructGeCrystal();
-  G4double fHolderL;
-  G4double fCrystalL;
   G4double fGeDetL;
+  G4double fNaIDetL;
 
   void SetVis(G4LogicalVolume *lv, G4Color col, G4bool visibility);
   std::vector<G4VisAttributes *> fVisAttributes;
