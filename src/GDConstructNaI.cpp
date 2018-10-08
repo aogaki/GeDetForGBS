@@ -75,7 +75,7 @@ G4LogicalVolume *GDConstructNaI::ConstructNaIDet()
   auto scintiS = new G4Tubs("NaI", scintiID / 2., scintiD / 2., scintiL / 2.,
                             0., CLHEP::twopi);
   auto scintiLV = new G4LogicalVolume(scintiS, fScintiMat, "NaI");
-  SetVis(scintiLV, G4Colour(1, 1, 0, 0.3), true);
+  SetVis(scintiLV, G4Colour(1, 1, 0, 0.1), true);
 
   auto scintiPos = G4ThreeVector(0., 0., 3. * mm - (refL - scintiL) / 2.);
   new G4PVPlacement(nullptr, scintiPos, scintiLV, "NaI", refLV, false, 0,

@@ -43,12 +43,12 @@ void GDEventAction::EndOfEventAction(const G4Event *event)
   for (G4int iHit = 0; iHit < kHit; iHit++) {
     GDHit *newHit = (*hc)[iHit];
 
-    anaMan->FillNtupleIColumn(0, 0, eventID);
-    anaMan->FillNtupleSColumn(0, 1, newHit->GetName());
-    anaMan->FillNtupleDColumn(0, 2, newHit->GetDepEne());
-    anaMan->FillNtupleDColumn(0, 3, newHit->GetTime());
-
-    anaMan->AddNtupleRow(0);
+    // anaMan->FillNtupleIColumn(0, 0, eventID);
+    // anaMan->FillNtupleSColumn(0, 1, newHit->GetName());
+    // anaMan->FillNtupleDColumn(0, 2, newHit->GetDepEne());
+    // anaMan->FillNtupleDColumn(0, 3, newHit->GetTime());
+    //
+    // anaMan->AddNtupleRow(0);
 
     if (newHit->GetName() == "Ge")
       depEneGe += newHit->GetDepEne();

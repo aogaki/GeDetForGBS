@@ -28,6 +28,7 @@ GDPrimaryGeneratorAction::GDPrimaryGeneratorAction()
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
 
   fEnergy = 1. * MeV;
+  SetRMS(fEnergy * 0.005);
   fParticleGun->SetParticleEnergy(fEnergy);
 
   DefineCommands();
@@ -38,6 +39,13 @@ GDPrimaryGeneratorAction::~GDPrimaryGeneratorAction() { delete fParticleGun; }
 void GDPrimaryGeneratorAction::GeneratePrimaries(G4Event *event)
 {
   fParticleGun->GeneratePrimaryVertex(event);
+
+  if (fRMS == 0.)
+    fParticleGun->SetParticleEnergy(fEnergy);
+  else {
+    auto ene = G4RandGauss::shoot(fEnergy, fRMS);
+    fParticleGun->SetParticleEnergy(ene);
+  }
 
   G4AutoLock lock(&mutexInPGA);
   if (nEveInPGA++ % 10000 == 0)
@@ -56,10 +64,18 @@ void GDPrimaryGeneratorAction::DefineCommands()
   setEneCmd.SetParameterName("K", true);
   setEneCmd.SetRange("K>=1. && K<=100000.");
   setEneCmd.SetDefaultValue("10");
+
+  // RMS
+  G4GenericMessenger::Command &setRMSCmd = fMessenger->DeclareMethodWithUnit(
+      "Sigma", "keV", &GDPrimaryGeneratorAction::SetRMS, "Set the RMS");
+
+  setRMSCmd.SetParameterName("RMS", true);
+  setRMSCmd.SetRange("RMS>=0.");
+  setRMSCmd.SetDefaultValue("0.");
 }
 
 void GDPrimaryGeneratorAction::SetEnergy(G4double ene)
 {
   fEnergy = ene;
-  fParticleGun->SetParticleEnergy(fEnergy);
+  SetRMS(ene * 0.005);
 }

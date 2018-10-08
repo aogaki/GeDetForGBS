@@ -26,6 +26,9 @@ class GDPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   void DefineCommands();
   G4GenericMessenger *fMessenger;
   G4double fEnergy;
+
+  void SetRMS(G4double rms) { fRMS = rms; };
+  G4double fRMS;
 };
 
 #endif

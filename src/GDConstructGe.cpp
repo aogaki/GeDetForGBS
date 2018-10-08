@@ -144,7 +144,7 @@ G4LogicalVolume *GDConstructGe::ConstructGeCrystal()
       new G4SubtractionSolid("Crystal", noHoleS, holeS, nullptr, holePos);
 
   auto crystalLV = new G4LogicalVolume(crystalS, fCrystalMat, "Ge");
-  SetVis(crystalLV, G4Colour(0, 1, 1, 0.5), true);
+  SetVis(crystalLV, G4Colour(0, 1, 1, 0.7), true);
 
   return crystalLV;
 }

@@ -9,8 +9,8 @@ Makefile
 *~
 *.bu
 *.gch
+*.jpg
 result*.root
 Makefile
 compile_commands.json
 bu/
-
