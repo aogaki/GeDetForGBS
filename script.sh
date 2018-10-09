@@ -12,7 +12,7 @@ echo "/run/beamOn $nEvents" >> tmp.mac
 hadd -f "resultEne$ene".root result_t*
 
 echo "/GD/Primary/K $ene" > tmp.mac
-echo "/GD/Primary/RMS 0." >> tmp.mac
+echo "/GD/Primary/Sigma 0." >> tmp.mac
 echo "/run/beamOn $nEvents" >> tmp.mac
 
 ./example tmp.mac
@@ -30,7 +30,7 @@ do
     hadd -f "resultEne$ene".root result_t*
 
     echo "/GD/Primary/K $ene" > tmp.mac
-    echo "/GD/Primary/RMS 0." >> tmp.mac
+    echo "/GD/Primary/Sigma 0." >> tmp.mac
     echo "/run/beamOn $nEvents" >> tmp.mac
 
     ./example tmp.mac

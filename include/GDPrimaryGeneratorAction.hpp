@@ -27,6 +27,7 @@ class GDPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
   G4GenericMessenger *fMessenger;
   G4double fEnergy;
 
+  // RMS?  Should be Sigma or StdDev
   void SetRMS(G4double rms) { fRMS = rms; };
   G4double fRMS;
 };
