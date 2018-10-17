@@ -10,7 +10,9 @@ Makefile
 *.bu
 *.gch
 *.jpg
-result*.root
+*.root
+*.pdf
+*.pcm
 Makefile
 compile_commands.json
 bu/

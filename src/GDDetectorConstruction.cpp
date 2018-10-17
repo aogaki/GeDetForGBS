@@ -21,6 +21,7 @@ GDDetectorConstruction::GDDetectorConstruction()
 
   fGeDetL = 170. * mm;
   fNaIDetL = 273. * mm;
+  fGeOffset = 165. * mm;
 
   DefineMaterials();
 
@@ -55,14 +56,14 @@ G4VPhysicalVolume *GDDetectorConstruction::Construct()
   SetVis(worldLV, G4Color::White(), false);
 
   auto GeDetLV = fConstructorGe->GetGe();
-  auto GePos = G4ThreeVector(0., 0., fGeDetL / 2.);
+  auto GePos = G4ThreeVector(0., 0., fGeDetL / 2. + fGeOffset);
   auto GeRot = new G4RotationMatrix();
   new G4PVPlacement(GeRot, GePos, GeDetLV, "GeDet", worldLV, false, 0,
                     fCheckOverlap);
 
   auto NaIDetLV = fConstructorNaI->GetNaI();
-  // auto NaIPos = G4ThreeVector(0., 0., fNaIDetL / 2.);
-  auto NaIPos = G4ThreeVector(0., 0., 0.);
+  auto NaIPos = G4ThreeVector(0., 0., fNaIDetL / 2.);
+  // auto NaIPos = G4ThreeVector(0., 0., 0.);
   auto NaIRot = new G4RotationMatrix();
   new G4PVPlacement(NaIRot, NaIPos, NaIDetLV, "NaIDet", worldLV, false, 0,
                     fCheckOverlap);

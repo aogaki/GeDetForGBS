@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+#include "TCanvas.h"
 #include "TF1.h"
 #include "TFile.h"
 #include "TH1.h"
@@ -8,8 +9,7 @@
 #include "TRandom3.h"
 #include "TTree.h"
 
-TH1D *HisGe;
-TH1D *HisAll;
+TCanvas *canv;
 
 Double_t fitFnc(Double_t *pos, Double_t *par)
 {  // This should be class not function.
@@ -18,27 +18,27 @@ Double_t fitFnc(Double_t *pos, Double_t *par)
   auto mean = par[1];
   auto sigma = par[2];
 
-  auto facRange = 2;
+  auto facRange = 3;
   auto limitHigh = mean + facRange * sigma;
   auto limitLow = mean - facRange * sigma;
 
   auto val = par[0] * TMath::Gaus(x, mean, sigma);
 
-  auto result = 0.;
+  auto backGround = 0.;
   if (x < limitLow)
-    result = par[3] + par[4] * x;
+    backGround = par[3] + par[4] * x;
   else if (x > limitHigh)
-    result = par[5] + par[6] * x;
+    backGround = par[5] + par[6] * x;
   else {
     auto xInc = limitHigh - limitLow;
     auto yInc = (par[5] + par[6] * limitHigh) - (par[3] + par[4] * limitLow);
     auto slope = yInc / xInc;
 
-    result = (par[3] + par[4] * limitLow) + slope * (x - limitLow);
+    backGround = (par[3] + par[4] * limitLow) + slope * (x - limitLow);
   }
 
-  if (result < 0.) result = 0.;
-  val += result;
+  if (backGround < 0.) backGround = 0.;
+  val += backGround;
 
   return val;
 }
@@ -116,7 +116,7 @@ Double_t Digitize(Double_t ene)
   return gRandom->Gaus(ene, sigma) / 1000.;  // keV -> MeV
 }
 
-void test(Int_t ene = 19500)
+TH1D *test(Int_t ene = 10000)
 {
   auto fileName = Form("resultEne%d.root", ene);
   auto file = new TFile(fileName, "READ");
@@ -128,11 +128,12 @@ void test(Int_t ene = 19500)
   Double_t eneNaI;
   tree->SetBranchAddress("NaI", &eneNaI);
 
-  HisGe =
+  auto HisGe =
       new TH1D("HisGe", Form("Energy distribution (%2.1f MeV)", ene / 1000.),
                20000, 0., 20.);
   HisGe->SetXTitle("[MeV]");
-  HisAll = new TH1D("HisAll", "energy distribution", 20000, 0., 20.);
+  HisGe->SetDirectory(0);
+  auto HisAll = new TH1D("HisAll", "energy distribution", 20000, 0., 20.);
 
   const auto th = 0.;
   const UInt_t nEve = tree->GetEntries();
@@ -169,7 +170,8 @@ void test(Int_t ene = 19500)
   auto myFit = new TF1("myFit", fitFnc, mean - rangeFac * sigma,
                        mean + rangeFac * sigma, 7);
   myFit->SetParameters(f->GetParameter(0), mean, sigma, left, -0.001, right,
-                       -0.01);
+                       0.);
+  myFit->FixParameter(6, 0.);
   myFit->SetParLimits(1, mean - sigma, mean + sigma);
   HisGe->Fit(myFit, "R");
 
@@ -191,4 +193,28 @@ void test(Int_t ene = 19500)
                        myFit->GetParameter(6));
   myFit->SetLineColor(kCyan);
   myFit->Draw("SAME");
+
+  canv->Print("fit.pdf", "pdf");
+
+  // file->Close();
+
+  return HisGe;
+}
+
+void MakeImage()
+{
+  canv = new TCanvas();
+  canv->Print("fit.pdf[", "pdf");
+
+  std::vector<TH1D *> hisVec;
+  hisVec.push_back(test(200));
+  for (auto ene = 500; ene <= 19500; ene += 500) {
+    hisVec.push_back(test(ene));
+  }
+
+  canv->Print("fit.pdf]", "pdf");
+
+  auto output = new TFile("fit.root", "RECREATE");
+  for (auto &&his : hisVec) his->Write();
+  output->Close();
 }

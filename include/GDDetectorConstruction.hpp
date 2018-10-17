@@ -35,6 +35,7 @@ class GDDetectorConstruction : public G4VUserDetectorConstruction
 
   G4double fGeDetL;
   G4double fNaIDetL;
+  G4double fGeOffset;
 
   void SetVis(G4LogicalVolume *lv, G4Color col, G4bool visibility);
   std::vector<G4VisAttributes *> fVisAttributes;
