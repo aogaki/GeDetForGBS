@@ -23,8 +23,9 @@ GDPrimaryGeneratorAction::GDPrimaryGeneratorAction()
   auto particle = parTable->FindParticle("gamma");
   fParticleGun->SetParticleDefinition(particle);
 
-  auto sourcePos = -5. * cm;
-  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., sourcePos));
+  auto sourcePosZ = -5. * cm;
+  auto sourcePosY = -1.5 * cm;
+  fParticleGun->SetParticlePosition(G4ThreeVector(0., sourcePosY, sourcePosZ));
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0., 0., 1.));
 
   fEnergy = 1. * MeV;

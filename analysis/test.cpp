@@ -173,13 +173,14 @@ void test(Int_t ene = 19500)
   myFit->SetParLimits(1, mean - sigma, mean + sigma);
   HisGe->Fit(myFit, "R");
 
-  // HisAll->Draw();
-  // HisGe->SetLineColor(kCyan);
-
-  HisGe->GetXaxis()->SetRange(HisGe->FindBin(mean - 2 * rangeFac * sigma),
+  HisAll->GetXaxis()->SetRange(HisGe->FindBin(mean - 2 * rangeFac * sigma),
                               HisGe->FindBin(mean + 2 * rangeFac * sigma));
-  HisGe->Draw();
 
+  HisAll->Draw();
+  HisGe->SetLineColor(kBlack);
+
+  HisGe->Draw("SAME");
+/*
   auto result = new TF1("result", "gaus", left, right);
   result->SetParameters(myFit->GetParameter(0), myFit->GetParameter(1),
                         myFit->GetParameter(2));
@@ -191,4 +192,5 @@ void test(Int_t ene = 19500)
                        myFit->GetParameter(6));
   myFit->SetLineColor(kCyan);
   myFit->Draw("SAME");
+*/
 }
